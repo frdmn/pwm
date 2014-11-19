@@ -129,7 +129,11 @@ while ($page_current <= $page_last) {
   $page_current++;
 }
 
-// Encode as json
-echo json_encode($workflows);
+// Encode as json and write to file or output to console
+if (isset($argv[1])) {
+  file_put_contents($argv[1], json_encode($workflows));
+} else {
+  echo json_encode($workflows);
+}
 
 ?>
