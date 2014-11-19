@@ -104,7 +104,7 @@ while ($page_current <= $page_last) {
     $workflow_object['description-long'] = trim($workflow_detail_description_long->plaintext);
 
     // Log to stdout
-    std("info", "-> Parsing '".trim($workflow_detail_title->plaintext));
+    std("info", "-> Parsing '".trim($workflow_detail_title->plaintext)."'");
     std("debug", "=> URL: '".trim($workflow_detail_url)."'");
     std("debug", "=> Bundle ID: '".trim($workflow_detail_bundleid->plaintext)."'");
     std("debug", "=> Version: '".trim($workflow_detail_version->plaintext)."'");
