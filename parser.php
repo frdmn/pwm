@@ -129,8 +129,8 @@ while ($page_current <= $page_last) {
 
     // And screenshots
     foreach ($workflow_detail_screenshots as $workflow_detail_screenshot) {
-      std("debug", "==> Screenshot: '".trim($workflow_detail_screenshot->plaintext)."'");
-      $workflow_object['screenshots'][] = trim($workflow_detail_screenshot->plaintext);
+      std("debug", "==> Screenshot: '".trim($workflow_detail_screenshot->src)."'");
+      $workflow_object['screenshots'][] = trim($workflow_detail_screenshot->src);
     }
 
     // Add workflow item, to workflows
