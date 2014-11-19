@@ -94,6 +94,7 @@ while ($page_current <= $page_last) {
     $workflow_detail_description_short = $workflow_detail_html->find('.pane-node-field-short-description .field-short-description', 0);
     $workflow_detail_description_long = $workflow_detail_html->find('.field-body', 0);
     $workflow_detail_categories = $workflow_detail_html->find('.field-categories a');
+    $workflow_detail_screenshots = $workflow_detail_html->find('.pane-node-field-screenshots .pane-content .field-screenshots a img');
 
     // Store in array
     $workflow_object['name'] = trim($workflow_detail_title->plaintext);
@@ -106,7 +107,7 @@ while ($page_current <= $page_last) {
     $workflow_object['description-short'] = trim($workflow_detail_description_short->plaintext);
     $workflow_object['description-long'] = trim($workflow_detail_description_long->plaintext);
 
-    // Log to stdout
+    // Log to stdout (based on log level defined above)
     std("info", "-> Parsing '".trim($workflow_detail_title->plaintext)."'");
     std("debug", "=> URL: '".trim($workflow_detail_url)."'");
     std("debug", "=> Bundle ID: '".trim($workflow_detail_bundleid->plaintext)."'");
@@ -117,11 +118,19 @@ while ($page_current <= $page_last) {
     std("debug", "=> Short description: '".trim($workflow_detail_description_short->plaintext)."'");
     std("debug", "=> Long description: '".trim($workflow_detail_description_long->plaintext)."'");
 
-    // Add categories
-    unset($workflow_object['categories']);
+    // Unset possible previous categories and screenshots
+    unset($workflow_object['categories'], $workflow_object['screenshots']);
+
+    // Add new categories
     foreach ($workflow_detail_categories as $workflow_detail_category) {
       std("debug", "==> Category: '".trim($workflow_detail_category->plaintext)."'");
       $workflow_object['categories'][] = trim($workflow_detail_category->plaintext);
+    }
+
+    // And screenshots
+    foreach ($workflow_detail_screenshots as $workflow_detail_screenshot) {
+      std("debug", "==> Screenshot: '".trim($workflow_detail_screenshot->plaintext)."'");
+      $workflow_object['screenshots'][] = trim($workflow_detail_screenshot->plaintext);
     }
 
     // Add workflow item, to workflows
