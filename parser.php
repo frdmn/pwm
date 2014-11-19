@@ -77,7 +77,52 @@ while ($page_current <= $page_last) {
 
   // Search for workflows
   foreach ($page_dom as $workflow) {
-    var_dump($workflow->href);
+    // Download workflow source
+    $workflow_detail_html = file_get_html('http://www.packal.org'.$workflow->href);
+
+    // Parse detail informations
+    $workflow_detail_url = 'http://www.packal.org'.$workflow->href;
+    $workflow_detail_title = $workflow_detail_html->find('#page-title', 0);
+    $workflow_detail_version = $workflow_detail_html->find('.pane-node-field-version .pane-content', 0);
+    $workflow_detail_bundleid = $workflow_detail_html->find('.pane-node-field-bundle-id .pane-content', 0);
+    $workflow_detail_author = $workflow_detail_html->find('.pane-user-picture .pane-content td', 0);
+    $workflow_detail_author_avatar = $workflow_detail_html->find('.user-picture a img', 0);
+    $workflow_detail_logo = $workflow_detail_html->find('.field-icon a img', 0);
+    $workflow_detail_description_short = $workflow_detail_html->find('.pane-node-field-short-description .field-short-description', 0);
+    $workflow_detail_description_long = $workflow_detail_html->find('.field-body p', 0);
+    $workflow_detail_categories = $workflow_detail_html->find('.field-categories a');
+
+    // Store in array
+    $workflow_object['name'] = trim($workflow_detail_title->plaintext);
+    $workflow_object['url'] = trim($workflow_detail_url);
+    $workflow_object['bundle-id'] = trim($workflow_detail_bundleid->plaintext);
+    $workflow_object['version'] = trim($workflow_detail_version->plaintext);
+    $workflow_object['author'] = trim($workflow_detail_author->plaintext);
+    $workflow_object['author-avatar'] = trim($workflow_detail_author_avatar->src);
+    $workflow_object['workflow-logo'] = trim($workflow_detail_logo->src);
+    $workflow_object['description-short'] = trim($workflow_detail_description_short->plaintext);
+    $workflow_object['description-long'] = trim($workflow_detail_description_long->plaintext);
+
+    // Log to stdout
+    std("info", "-> Parsing '".trim($workflow_detail_title->plaintext));
+    std("debug", "=> URL: '".trim($workflow_detail_url)."'");
+    std("debug", "=> Bundle ID: '".trim($workflow_detail_bundleid->plaintext)."'");
+    std("debug", "=> Version: '".trim($workflow_detail_version->plaintext)."'");
+    std("debug", "=> Author: '".trim($workflow_detail_author->plaintext)."'");
+    std("debug", "=> Avatar: '".trim($workflow_detail_author_avatar->src)."'");
+    std("debug", "=> Logo: '".trim($workflow_detail_logo->src)."'");
+    std("debug", "=> Short description: '".trim($workflow_detail_description_short->plaintext)."'");
+    std("debug", "=> Long description: '".trim($workflow_detail_description_long->plaintext)."'");
+
+    // Add categories
+    unset($workflow_object['categories']);
+    foreach ($workflow_detail_categories as $workflow_detail_category) {
+      std("debug", "==> Category: '".trim($workflow_detail_category->plaintext)."'");
+      $workflow_object['categories'][] = trim($workflow_detail_category->plaintext);
+    }
+
+    // Add workflow item, to workflows
+    $workflows[] = $workflow_object;
   }
 
   // Increment active page
