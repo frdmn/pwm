@@ -16,9 +16,11 @@ $pagination_html = file_get_html('http://www.packal.org/workflow-list?sort_by=ch
 // Store DOM in variable
 $pagination_dom = $pagination_html->find('li.pager-current');
 
+// Regex to parse pagination (current and last page)
 $pagination_regex_pattern='/(\d+) of (\d+)/';
 $pagination_regex_result = preg_match($pagination_regex_pattern, $pagination_dom[0]->plaintext, $pagination_regex_match);
 
+// Store in variables if we have a match
 if ($pagination_regex_match[1] && $pagination_regex_match[2]) {
   $page_current = $pagination_regex_match[1]-1;
   $page_last = $pagination_regex_match[2]-1;
@@ -28,14 +30,19 @@ if ($pagination_regex_match[1] && $pagination_regex_match[2]) {
  * Parse workflows per page
  */
 
+// For each page
 while ($page_current <= $page_last) {
+  // Download page source
   $page_html = file_get_html('http://www.packal.org/workflow-list?sort_by=changed&sort_order=DESC&items_per_page=100&page='.$page_current);
+  // Store DOM
   $workflow_dom = $page_html->find('tbody tr td h4 a');
 
+  // Search for workflows
   foreach ($workflow_dom as $workflow) {
     var_dump($workflow->plaintext);
   }
 
+  // Increment active page
   $page_current++;
 }
 
