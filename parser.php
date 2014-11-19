@@ -4,7 +4,7 @@
  * Configuration options
  */
 
-$items_per_page = 10;
+$items_per_page = 100;
 
 $log_debug = false;
 $log_info = true;
