@@ -14,6 +14,9 @@ $log_error = true;
  * Functions, includes and initializations
  */
 
+// First timestamp
+$time_start = microtime(true);
+
 // Function to print stuff to stdout/stderr
 function std($type, $msg) {
   global $log_debug, $log_info, $log_error;
@@ -135,5 +138,9 @@ if (isset($argv[1])) {
 } else {
   echo json_encode($workflows);
 }
+
+// Second timestamp to calculate execution time
+$time_end = microtime(true);
+std("info", "Took '".trim($time_end-$time_start)."' seconds to scrape ".count($workflows)." workflows via http://www.packal.org/");
 
 ?>
