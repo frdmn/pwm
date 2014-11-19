@@ -130,6 +130,6 @@ while ($page_current <= $page_last) {
 }
 
 // Encode as json
-// echo json_encode($dongers);
+echo json_encode($workflows);
 
 ?>
