@@ -13,6 +13,20 @@ $debug = true;
 
 // Function to print stuff to stdout/stderr
 function std($type, $msg) {
+  global $log_debug, $log_info, $log_error;
+
+  if (!$log_debug && $type == "debug") {
+    return false;
+  }
+
+  if (!$log_info && $type == "info") {
+    return false;
+  }
+
+  if (!$log_error && $type == "error") {
+    return false;
+  }
+
   if ($type == "error") {
     error_log("[".strtoupper($type)."] ".$msg);
   } else {
