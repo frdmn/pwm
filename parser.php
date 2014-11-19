@@ -5,7 +5,10 @@
  */
 
 $items_per_page = 10;
-$debug = true;
+
+$log_debug = false;
+$log_info = true;
+$log_error = true;
 
 /*
  * Functions, includes and initializations
