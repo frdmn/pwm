@@ -37,9 +37,6 @@ function std($type, $msg) {
 // Include SimpleHTMLDOM class
 require('simplehtmldom.php');
 
-// Init empty array
-$workflows = array();
-
 /*
  * Parse available pages
  */
