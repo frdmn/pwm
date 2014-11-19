@@ -42,7 +42,7 @@ require('simplehtmldom.php');
  */
 
 // Initial request to parse pagination
-$pagination_html = file_get_html('http://www.packal.org/workflow-list?sort_by=changed&sort_order=DESC&items_per_page=100');
+$pagination_html = file_get_html('http://www.packal.org/workflow-list?sort_by=changed&sort_order=DESC&items_per_page='.$items_per_page);
 
 // Store DOM in variable
 $pagination_dom = $pagination_html->find('li.pager-current');
@@ -65,7 +65,7 @@ if ($pagination_regex_match[1] && $pagination_regex_match[2]) {
 // For each page
 while ($page_current <= $page_last) {
   // Download page source
-  $page_html = file_get_html('http://www.packal.org/workflow-list?sort_by=changed&sort_order=DESC&items_per_page=100&page='.$page_current);
+  $page_html = file_get_html('http://www.packal.org/workflow-list?sort_by=changed&sort_order=DESC&items_per_page='.$items_per_page.'&page='.$page_current);
   // Store DOM
   $page_dom = $page_html->find('tbody tr td h4 a');
 
