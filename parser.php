@@ -89,7 +89,7 @@ while ($page_current <= $page_last) {
     $workflow_detail_author_avatar = $workflow_detail_html->find('.user-picture a img', 0);
     $workflow_detail_logo = $workflow_detail_html->find('.field-icon a img', 0);
     $workflow_detail_description_short = $workflow_detail_html->find('.pane-node-field-short-description .field-short-description', 0);
-    $workflow_detail_description_long = $workflow_detail_html->find('.field-body p', 0);
+    $workflow_detail_description_long = $workflow_detail_html->find('.field-body', 0);
     $workflow_detail_categories = $workflow_detail_html->find('.field-categories a');
 
     // Store in array
