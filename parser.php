@@ -58,7 +58,8 @@ $pagination_regex_result = preg_match($pagination_regex_pattern, $pagination_dom
 if ($pagination_regex_match[1] && $pagination_regex_match[2]) {
   $page_current = $pagination_regex_match[1]-1;
   $page_last = $pagination_regex_match[2]-1;
-  std("info","Found pagination: '".$page_current." of ".$page_last);
+  std("info","Available pages in pagination: ".intval($page_last+1));
+  std("info","Workflows per page: ".$items_per_page);
 }
 
 /*
@@ -67,6 +68,8 @@ if ($pagination_regex_match[1] && $pagination_regex_match[2]) {
 
 // For each page
 while ($page_current <= $page_last) {
+  // Report to stdout
+  std("info","Starting to scrape page #".intval($page_current+1));
   // Download page source
   $page_html = file_get_html('http://www.packal.org/workflow-list?sort_by=changed&sort_order=DESC&items_per_page='.$items_per_page.'&page='.$page_current);
   // Store DOM
