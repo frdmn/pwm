@@ -35,11 +35,11 @@ while ($page_current <= $page_last) {
   // Download page source
   $page_html = file_get_html('http://www.packal.org/workflow-list?sort_by=changed&sort_order=DESC&items_per_page=100&page='.$page_current);
   // Store DOM
-  $workflow_dom = $page_html->find('tbody tr td h4 a');
+  $page_dom = $page_html->find('tbody tr td h4 a');
 
   // Search for workflows
-  foreach ($workflow_dom as $workflow) {
-    var_dump($workflow->plaintext);
+  foreach ($page_dom as $workflow) {
+    var_dump($workflow->href);
   }
 
   // Increment active page
