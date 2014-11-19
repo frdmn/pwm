@@ -1,6 +1,13 @@
 <?php
 
 /*
+ * Configuration options
+ */
+
+$items_per_page = 10;
+$debug = true;
+
+/*
  * Functions, includes and initializations
  */
 
