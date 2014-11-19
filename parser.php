@@ -1,5 +1,18 @@
 <?php
 
+/*
+ * Functions, includes and initializations
+ */
+
+// Function to print stuff to stdout/stderr
+function std($type, $msg) {
+  if ($type == "error") {
+    error_log("[".strtoupper($type)."] ".$msg);
+  } else {
+    echo "[".strtoupper($type)."] ".$msg."\n";
+  }
+}
+
 // Include SimpleHTMLDOM class
 require('simplehtmldom.php');
 
@@ -24,6 +37,7 @@ $pagination_regex_result = preg_match($pagination_regex_pattern, $pagination_dom
 if ($pagination_regex_match[1] && $pagination_regex_match[2]) {
   $page_current = $pagination_regex_match[1]-1;
   $page_last = $pagination_regex_match[2]-1;
+  std("info","Found pagination: '".$page_current." of ".$page_last);
 }
 
 /*
