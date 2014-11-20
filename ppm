@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+scriptname=$(basename $0)
+scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Usage function
+usage(){
+    echo "Usage: ${scriptname} <command> [options]"
+    echo ""
+    echo "Commands:"
+
+    for f in ${scriptdir}/commands/*; do
+        subcmd=$(basename ${f})
+        echo "    ${subcmd}   $(${scriptdir}/commands/${subcmd} description)"
+    done
+
+    echo ""
+    echo "For help with each command run:"
+    echo "${scriptname} <command> -h|--help"
+    echo ""
+}
+
+# Store argument (command) in variable
+command=${1}
+
+# Allow execution of 'cache' even when there is no cache yet
+if [[ ! -f ~/.ppm.cache && $command != "cache" ]]; then
+    echo "NO cache found! Run 'ppm cache' at least once!"
+    exit
+fi
+
+# Execute specific command or show usage information
+case ${command} in
+    "" | "-h" | "--help")
+        usage
+        ;;
+    *)
+        shift
+        ${scriptdir}/commands/${command} $@
+        if [ $? = 127 ]; then
+            echo "Error: '${command}' is not a known command." >&2
+            echo "       Run '${scriptname} --help' for a list of known commands." >&2
+            exit 1
+        fi
+        ;;
+esac
