@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
+
 scriptname=$(basename $0)
 scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cache_file="${HOME}/.ppm.cache"
-update_every="1"
+update_every="24"
 
 # Usage function
 usage(){
@@ -30,7 +31,7 @@ updated_timestamp=$(cat ${cache_file} | json last_update)
 current_timestamp=$(date +%s)
 time_diff=$(($current_timestamp-$updated_timestamp))
 max_time_diff=$(($update_every*60*60))
-if [[ $time_diff > $max_time_diff ]]; then
+if [[ $time_diff > $max_time_diff && ${command} != "cache" ]]; then
     echo "Error: Local packal.org cache seems outdated (${time_diff} seconds exceeded)." >&2
     echo "       Run '${scriptname} cache' to update." >&2
     exit
