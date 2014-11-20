@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+#
+# Check for system arguments
+#
+
+# Describe command
+if [[ ${1} == "description" ]]; then
+  echo "Search for new workflows"
+  exit 0
+fi
+
+# Check if argument is set
+if [[ ! ${1} ]]; then
+  echo "Error: No argument given." >&2
+fi
+
+# TODO - search in cache
