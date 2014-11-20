@@ -31,7 +31,7 @@ updated_timestamp=$(cat ${cache_file} | json last_update)
 current_timestamp=$(date +%s)
 time_diff=$(($current_timestamp-$updated_timestamp))
 max_time_diff=$(($update_every*60*60))
-if [[ $time_diff > $max_time_diff && ${command} != "cache" ]]; then
+if [[ $time_diff -gt $max_time_diff && ${command} != "cache" ]]; then
   echo "Error: Local packal.org cache seems outdated (${time_diff} seconds exceeded)." >&2
   echo "       Run '${scriptname} cache' to update." >&2
   exit
