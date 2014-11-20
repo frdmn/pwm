@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 /*
@@ -6,13 +7,16 @@
 
 $items_per_page = 100;
 
-$log_debug = false;
+$log_debug = true;
 $log_info = true;
 $log_error = true;
 
 /*
  * Functions, includes and initializations
  */
+
+// Store script directory
+$scriptdir=realpath(dirname(__FILE__));
 
 // First timestamp
 $time_start = microtime(true);
@@ -45,7 +49,7 @@ function std($type, $msg) {
 }
 
 // Include SimpleHTMLDOM class
-require('simplehtmldom.php');
+include($scriptdir.'/../lib/simplehtmldom.php');
 
 /*
  * Parse available pages
