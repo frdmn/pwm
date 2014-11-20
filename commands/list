@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+installed_workflows=()
+i=0
+
 #
 # Check for system arguments
 #
@@ -29,6 +32,14 @@ fi
 workflow_folder=${workflow_folder/#"~"/$HOME}
 
 # Iterate through workflows
-for f in "$workflow_folder"/*; do
-  echo "$f"
+for workflow in "$workflow_folder"/*; do
+  # Store relevant informations
+  workflow_bundleid=$(/usr/libexec/PlistBuddy -c "Print bundleid" "${workflow}/Info.plist" 2> /dev/null)
+  workflow_name=$(/usr/libexec/PlistBuddy -c "Print name" "${workflow}/Info.plist" 2> /dev/null)
+  # Push to array
+  installed_workflows[$i]=${workflow_name}
+  ((i++))
 done
+
+# Show in colums
+echo " ${installed_workflows[@]/%/$'\n'}" | sed 's/^ //' | column
