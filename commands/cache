@@ -7,13 +7,28 @@
 
 $items_per_page = 100;
 
-$log_debug = true;
+$log_debug = false;
 $log_info = true;
 $log_error = true;
+
+$cache_file =  $_SERVER['HOME']."/.ppm.cache";
+
+/*
+ * Check for system arguments
+ */
+
+// Describe command
+if (isset($argv[1]) && $argv[1] == "description") {
+  echo "Update the Workflow cache directly from packal.org";
+  exit;
+}
 
 /*
  * Functions, includes and initializations
  */
+
+// Store timestamp for further update checks
+$json['last_update'] = time();
 
 // Store script directory
 $scriptdir=realpath(dirname(__FILE__));
@@ -149,12 +164,11 @@ while ($page_current <= $page_last) {
   $page_current++;
 }
 
+// Put workflow array into $json object
+$json['workflows'] = $workflows;
+
 // Encode as json and write to file or output to console
-if (isset($argv[1])) {
-  file_put_contents($argv[1], json_encode($workflows));
-} else {
-  echo json_encode($workflows);
-}
+file_put_contents($cache_file, json_encode($json));
 
 // Second timestamp to calculate execution time
 $time_end = microtime(true);
