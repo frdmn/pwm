@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 scriptname=$(basename $0)
 scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cache_file="${HOME}/.ppm.cache"
+update_every="1"
 
 # Usage function
 usage(){
@@ -12,19 +14,25 @@ usage(){
         subcmd=$(basename ${f})
         echo "    ${subcmd}   $(${scriptdir}/commands/${subcmd} description)"
     done
-
-    echo ""
-    echo "For help with each command run:"
-    echo "${scriptname} <command> -h|--help"
-    echo ""
 }
 
 # Store argument (command) in variable
 command=${1}
 
 # Allow execution of 'cache' even when there is no cache yet
-if [[ ! -f ~/.ppm.cache && $command != "cache" ]]; then
+if [[ ! -f ~/.ppm.cache && ${command} != "cache" ]]; then
     echo "NO cache found! Run 'ppm cache' at least once!"
+    exit
+fi
+
+# Check if cache update is necessary
+updated_timestamp=$(cat ${cache_file} | json last_update)
+current_timestamp=$(date +%s)
+time_diff=$(($current_timestamp-$updated_timestamp))
+max_time_diff=$(($update_every*60*60))
+if [[ $time_diff > $max_time_diff ]]; then
+    echo "Error: Local packal.org cache seems outdated (${time_diff} seconds exceeded)." >&2
+    echo "       Run '${scriptname} cache' to update." >&2
     exit
 fi
 
