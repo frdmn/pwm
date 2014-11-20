@@ -7,14 +7,14 @@ update_every="24"
 
 # Usage function
 usage(){
-    echo "Usage: ${scriptname} <command> [options]"
-    echo ""
-    echo "Commands:"
+  echo "Usage: ${scriptname} <command> [options]"
+  echo ""
+  echo "Commands:"
 
-    for f in ${scriptdir}/commands/*; do
-        subcmd=$(basename ${f})
-        echo "    ${subcmd}   $(${scriptdir}/commands/${subcmd} description)"
-    done
+  for f in ${scriptdir}/commands/*; do
+    subcmd=$(basename ${f})
+    echo "    ${subcmd}   $(${scriptdir}/commands/${subcmd} description)"
+  done
 }
 
 # Store argument (command) in variable
@@ -22,8 +22,8 @@ command=${1}
 
 # Allow execution of 'cache' even when there is no cache yet
 if [[ ! -f ~/.ppm.cache && ${command} != "cache" ]]; then
-    echo "NO cache found! Run 'ppm cache' at least once!"
-    exit
+  echo "NO cache found! Run 'ppm cache' at least once!"
+  exit
 fi
 
 # Check if cache update is necessary
@@ -32,23 +32,23 @@ current_timestamp=$(date +%s)
 time_diff=$(($current_timestamp-$updated_timestamp))
 max_time_diff=$(($update_every*60*60))
 if [[ $time_diff > $max_time_diff && ${command} != "cache" ]]; then
-    echo "Error: Local packal.org cache seems outdated (${time_diff} seconds exceeded)." >&2
-    echo "       Run '${scriptname} cache' to update." >&2
-    exit
+  echo "Error: Local packal.org cache seems outdated (${time_diff} seconds exceeded)." >&2
+  echo "       Run '${scriptname} cache' to update." >&2
+  exit
 fi
 
 # Execute specific command or show usage information
 case ${command} in
-    "" | "-h" | "--help")
-        usage
-        ;;
-    *)
-        shift
-        ${scriptdir}/commands/${command} $@
-        if [ $? = 127 ]; then
-            echo "Error: '${command}' is not a known command." >&2
-            echo "       Run '${scriptname} --help' for a list of known commands." >&2
-            exit 1
-        fi
-        ;;
+  "" | "-h" | "--help")
+usage
+;;
+*)
+shift
+${scriptdir}/commands/${command} $@
+if [ $? = 127 ]; then
+  echo "Error: '${command}' is not a known command." >&2
+  echo "       Run '${scriptname} --help' for a list of known commands." >&2
+  exit 1
+fi
+;;
 esac
