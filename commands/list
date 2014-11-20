@@ -9,7 +9,7 @@ i=0
 
 # Describe command
 if [[ ${1} == "description" ]]; then
-  echo " List currently installed workflows"
+  echo "  List currently installed workflows"
   exit 0
 fi
 

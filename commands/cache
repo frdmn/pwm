@@ -19,7 +19,7 @@ $cache_file =  $_SERVER['HOME']."/.ppm.cache";
 
 // Describe command
 if (isset($argv[1]) && $argv[1] == "description") {
-  echo "Update the Workflow cache directly from packal.org";
+  echo " Update the Workflow cache directly from packal.org";
   exit;
 }
 
