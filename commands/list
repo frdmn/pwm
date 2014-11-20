@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+#
+# Check for system arguments
+#
+
+# Describe command
+if [[ ${1} == "description" ]]; then
+  echo " List currently installed workflows"
+  exit 0
+fi
+
+#
+# Read Alfred's plist
+#
+
+# Get possible "syncfolder"
+retval=$(/usr/libexec/PlistBuddy -c "Print syncfolder" ${HOME}/Library/Preferences/com.runningwithcrayons.Alfred-Preferences.plist 2> /dev/null)
+
+# If error code => no syncfolder set => use "Application Support"
+# Otherwise use the custom folder, returned by PlistBuddy
+if [[ $? == 0 ]]; then
+  workflow_folder="${retval}/Alfred.alfredpreferences/workflows"
+else
+  workflow_folder="${HOME}/Library/Application Support/Alfred 2/Alfred.alfredpreferences/workflows"
+fi
+
+# Replace tilde with actual home folder
+workflow_folder=${workflow_folder/#"~"/$HOME}
+
+# Iterate through workflows
+for f in "$workflow_folder"/*; do
+  echo "$f"
+done
