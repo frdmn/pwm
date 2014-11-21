@@ -1,0 +1,74 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * Include functions
+ */
+
+$scriptdir=realpath(dirname(__FILE__));
+include($scriptdir.'/../lib/functions.php');
+require_once 'Console/Table.php';
+
+// Load and store cache
+$raw_cache=file_get_contents($cache_file);
+$json_cache=json_decode($raw_cache);
+
+// Create empty array to store matches in
+$result_matches = array();
+
+array_shift($argv);
+$workflow_term=implode(" ", $argv);
+
+$bold="\033[1m";
+$reset="\033[0m";
+
+/*
+ * Check for system arguments
+ */
+
+// Describe command
+if (isset($workflow_term) && $workflow_term == "description") {
+  echo "  Get informations about specific workflow";
+  exit;
+}
+
+// Check for argument
+if(!isset($workflow_term) || $workflow_term == "") {
+  std("error","No argument given");
+  exit;
+}
+
+/*
+ * Read workflow informations
+ */
+
+// Iterate through available workflows
+foreach ($json_cache->workflows as $i => $workflow) {
+  // If workflow name contains search term, push to $result_matches
+  if (strtolower($workflow_term) == strtolower($workflow->name)) {
+    array_push($result_matches, $workflow);
+  }
+}
+
+// Check if only one result
+if (count($result_matches) == 1) {
+  // Get informations about the specified workflow
+  echo $result_matches[0]->name.": version ".$result_matches[0]->version."\n";
+  echo $result_matches[0]->url."\n";
+  if ($result_matches[0]->bundle_id) {
+    echo "Bundle ID: ".$result_matches[0]->bundle_id."\n";
+  }
+  echo "Installed: Yes/No"."\n"; // TODO - function to check if workflow is installed
+  echo "Author: ".$result_matches[0]->author."\n";
+  echo $bold."=> Description".$reset."\n";
+  echo "\t".html_entity_decode($result_matches[0]->description_long)."\n";
+  echo $bold."=> Screenshots".$reset."\n";
+  if ($result_matches[0]->screenshots) {
+    foreach ($result_matches[0]->screenshots as $screenshots) {
+      echo "\t - ".html_entity_decode($screenshots)."\n";
+    }
+  }
+} else {
+  std("error", "No workflow \"".$workflow_term."\" found");
+}
+?>
