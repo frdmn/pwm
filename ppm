@@ -7,6 +7,7 @@ update_every="24"
 
 # Usage function
 usage(){
+  echo -ne "\033[1mPackal package manager\033[0m\n";
   echo "Usage: ${scriptname} <command> [options]"
   echo ""
   echo "Commands:"
