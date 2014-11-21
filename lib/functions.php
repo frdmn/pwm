@@ -30,8 +30,9 @@ function std($type, $msg) {
   }
 }
 
+// Function to check if a string contains a specific substring
 function contains($pattern, $string){
-    return strpos($string, $pattern) !== false;
+    return strpos(strtolower($string), strtolower($pattern)) !== false;
 }
 
 ?>
