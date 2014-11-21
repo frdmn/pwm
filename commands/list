@@ -1,45 +1,70 @@
-#!/usr/bin/env bash
+#!/usr/bin/env php
+<?php
 
-installed_workflows=()
-i=0
+/*
+ * Include functions
+ */
 
-#
-# Check for system arguments
-#
+$scriptdir=realpath(dirname(__FILE__));
+include($scriptdir.'/../lib/functions.php');
+require_once 'Console/Table.php';
 
-# Describe command
-if [[ ${1} == "description" ]]; then
-  echo "  List currently installed workflows"
-  exit 0
-fi
+/*
+ * Check for system arguments
+ */
 
-#
-# Read Alfred's plist
-#
+// Describe command
+if (isset($argv[1]) && $argv[1] == "description") {
+  echo "  List currently installed workflows";
+  exit;
+}
 
-# Get possible "syncfolder"
-retval=$(/usr/libexec/PlistBuddy -c "Print syncfolder" ${HOME}/Library/Preferences/com.runningwithcrayons.Alfred-Preferences.plist 2> /dev/null)
+/*
+ * Prepare CLI table
+ */
 
-# If error code => no syncfolder set => use "Application Support"
-# Otherwise use the custom folder, returned by PlistBuddy
-if [[ $? == 0 ]]; then
-  workflow_folder="${retval}/Alfred.alfredpreferences/workflows"
-else
-  workflow_folder="${HOME}/Library/Application Support/Alfred 2/Alfred.alfredpreferences/workflows"
-fi
+// Construct cli table design
+$tbl = new Console_Table();
+$tbl->setHeaders(
+    array('Workflow', 'Description')
+);
 
-# Replace tilde with actual home folder
-workflow_folder=${workflow_folder/#"~"/$HOME}
+/*
+ * Read Alfred's plist
+ */
 
-# Iterate through workflows
-for workflow in "$workflow_folder"/*; do
-  # Store relevant informations
-  workflow_bundleid=$(/usr/libexec/PlistBuddy -c "Print bundleid" "${workflow}/Info.plist" 2> /dev/null)
-  workflow_name=$(/usr/libexec/PlistBuddy -c "Print name" "${workflow}/Info.plist" 2> /dev/null)
-  # Push to array
-  installed_workflows[$i]=${workflow_name}
-  ((i++))
-done
+// Get possible "syncfolder"
+exec('/usr/libexec/PlistBuddy -c "Print syncfolder" ${HOME}/Library/Preferences/com.runningwithcrayons.Alfred-Preferences.plist 2> /dev/null', $retval, $exitcode);
 
-# Show in colums
-echo " ${installed_workflows[@]/%/$'\n'}" | sed 's/^ //' | column
+// If error code => no syncfolder set => use "Application Support"
+// Otherwise use the custom folder, returned by PlistBuddy
+if ($exitcode == 0) {
+  $workflow_folder=$retval[0]."/Alfred.alfredpreferences/workflows";
+} else {
+  $workflow_folder=$_SERVER['HOME']."/Library/Application Support/Alfred 2/Alfred.alfredpreferences/workflows";
+}
+
+// Replace tilde with actual home folder
+$workflow_folder=str_replace("~", $_SERVER['HOME'], $workflow_folder);
+
+// Scan for workflows and exclude hidden files
+$workflows = preg_grep('/^([^.])/', scandir($workflow_folder));
+foreach($workflows as $workflow) {
+  // Parse and store name and description
+  $workflow_name=exec('/usr/libexec/PlistBuddy -c "Print name" "'.$workflow_folder.'/'.$workflow.'/Info.plist" 2> /dev/null');
+  $workflow_description=exec('/usr/libexec/PlistBuddy -c "Print description" "'.$workflow_folder.'/'.$workflow.'/Info.plist" 2> /dev/null');
+
+  // Limit to specific length
+  if (strlen($workflow_description) > 50) {
+     $workflow_description = substr($workflow_description, 0, 47) . '...';
+  }
+
+  // Add entry table ...
+  $tbl->addRow(array($workflow_name, $workflow_description));
+}
+
+
+// ... and display
+echo $tbl->getTable();
+
+?>
