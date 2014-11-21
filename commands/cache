@@ -1,17 +1,12 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 
 /*
- * Configuration options
+ * Include functions
  */
 
-$items_per_page = 100;
-
-$log_debug = false;
-$log_info = true;
-$log_error = true;
-
-$cache_file =  $_SERVER['HOME']."/.ppm.cache";
+$scriptdir=realpath(dirname(__FILE__));
+include($scriptdir.'/../lib/functions.php');
 
 /*
  * Check for system arguments
@@ -24,47 +19,17 @@ if (isset($argv[1]) && $argv[1] == "description") {
 }
 
 /*
- * Functions, includes and initializations
+ * Initializations
  */
 
 // Store timestamp for further update checks
 $json['last_update'] = time();
 
-// Store script directory
-$scriptdir=realpath(dirname(__FILE__));
-
 // First timestamp
 $time_start = microtime(true);
 
-// Function to print stuff to stdout/stderr
-function std($type, $msg) {
-  global $log_debug, $log_info, $log_error;
-
-  // If logging "debug" is unwanted, leave function
-  if (!$log_debug && $type == "debug") {
-    return false;
-  }
-
-  // If logging "info" is unwanted, leave function
-  if (!$log_info && $type == "info") {
-    return false;
-  }
-
-  // If logging "error" is unwanted, leave function
-  if (!$log_error && $type == "error") {
-    return false;
-  }
-
-  // Append log type as prefix
-  if ($type == "error") {
-    error_log("[".strtoupper($type)."] ".$msg);
-  } else {
-    echo "[".strtoupper($type)."] ".$msg."\n";
-  }
-}
-
-// Include SimpleHTMLDOM class
-include($scriptdir.'/../lib/simplehtmldom.php');
+// Include SimpleHTMLDOM
+include($scriptdir.'/../lib/lib.simplehtmldom.php');
 
 /*
  * Parse available pages

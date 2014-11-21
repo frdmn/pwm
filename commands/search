@@ -1,18 +1,29 @@
-#!/usr/bin/env bash
+#!/usr/bin/env php
+<?php
+/*
+ * Include functions
+ */
 
-#
-# Check for system arguments
-#
+$scriptdir=realpath(dirname(__FILE__));
+include($scriptdir.'/../lib/functions.php');
 
-# Describe command
-if [[ ${1} == "description" ]]; then
-  echo "Search for new workflows"
-  exit 0
-fi
+/*
+ * Check for system arguments
+ */
 
-# Check if argument is set
-if [[ ! ${1} ]]; then
-  echo "Error: No argument given." >&2
-fi
+// Describe command
+if (isset($argv[1]) && $argv[1] == "description") {
+  echo " Update the Workflow cache directly from packal.org";
+  exit;
+}
 
-# TODO - search in cache
+if(!isset($argv[1])) {
+  std("error","No argument given");
+  exit;
+}
+
+// TODO - search in cache
+
+echo "$cache_file";
+
+?>
