@@ -29,4 +29,9 @@ function std($type, $msg) {
     echo "[".strtoupper($type)."] ".$msg."\n";
   }
 }
+
+function contains($pattern, $string){
+    return strpos($string, $pattern) !== false;
+}
+
 ?>
