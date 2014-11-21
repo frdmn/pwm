@@ -47,6 +47,10 @@ if ($exitcode == 0) {
 // Replace tilde with actual home folder
 $workflow_folder=str_replace("~", $_SERVER['HOME'], $workflow_folder);
 
+/*
+ * Read each workflows plist and render table
+ */
+
 // Scan for workflows and exclude hidden files
 $workflows = preg_grep('/^([^.])/', scandir($workflow_folder));
 foreach($workflows as $workflow) {
@@ -62,7 +66,6 @@ foreach($workflows as $workflow) {
   // Add entry table ...
   $tbl->addRow(array($workflow_name, $workflow_description));
 }
-
 
 // ... and display
 echo $tbl->getTable();

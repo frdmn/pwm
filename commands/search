@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /*
  * Include functions and initalizations
  */
@@ -39,7 +40,10 @@ foreach ($json_cache->workflows as $i => $workflow) {
   }
 }
 
-// Construct cli table design
+/*
+ * Construct and render CLI table
+ */
+
 $tbl = new Console_Table();
 $tbl->setHeaders(
     array('Workflow', 'Description')
