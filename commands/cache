@@ -14,7 +14,7 @@ include($scriptdir.'/../lib/functions.php');
 
 // Describe command
 if (isset($argv[1]) && $argv[1] == "description") {
-  echo " Update the Workflow cache directly from packal.org";
+  echo " Update the workflow cache directly from packal.org";
   exit;
 }
 
