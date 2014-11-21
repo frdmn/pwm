@@ -87,13 +87,13 @@ while ($page_current <= $page_last) {
     // Store in array
     $workflow_object['name'] = trim($workflow_detail_title->plaintext);
     $workflow_object['url'] = trim($workflow_detail_url);
-    $workflow_object['bundle-id'] = trim($workflow_detail_bundleid->plaintext);
+    $workflow_object['bundle_id'] = trim($workflow_detail_bundleid->plaintext);
     $workflow_object['version'] = trim($workflow_detail_version->plaintext);
     $workflow_object['author'] = trim($workflow_detail_author->plaintext);
-    $workflow_object['author-avatar'] = trim($workflow_detail_author_avatar->src);
-    $workflow_object['workflow-logo'] = trim($workflow_detail_logo->src);
-    $workflow_object['description-short'] = trim($workflow_detail_description_short->plaintext);
-    $workflow_object['description-long'] = trim($workflow_detail_description_long->plaintext);
+    $workflow_object['author_avatar'] = trim($workflow_detail_author_avatar->src);
+    $workflow_object['workflow_logo'] = trim($workflow_detail_logo->src);
+    $workflow_object['description_short'] = trim($workflow_detail_description_short->plaintext);
+    $workflow_object['description_long'] = trim($workflow_detail_description_long->plaintext);
 
     // Log to stdout (based on log level defined above)
     std("info", "-> Parsing '".trim($workflow_detail_title->plaintext)."'");
