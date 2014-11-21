@@ -1,11 +1,19 @@
 #!/usr/bin/env php
 <?php
 /*
- * Include functions
+ * Include functions and initalizations
  */
 
 $scriptdir=realpath(dirname(__FILE__));
 include($scriptdir.'/../lib/functions.php');
+require_once 'Console/Table.php';
+
+// Load and store cache
+$raw_cache=file_get_contents($cache_file);
+$json_cache=json_decode($raw_cache);
+
+// Create empty array to store matches in
+$result_matches = array();
 
 /*
  * Check for system arguments
@@ -13,17 +21,40 @@ include($scriptdir.'/../lib/functions.php');
 
 // Describe command
 if (isset($argv[1]) && $argv[1] == "description") {
-  echo " Update the Workflow cache directly from packal.org";
+  echo "Search for a specific workflow";
   exit;
 }
 
+// Check for argument
 if(!isset($argv[1])) {
   std("error","No argument given");
   exit;
 }
 
-// TODO - search in cache
+// Iterate through available workflows
+foreach ($json_cache->workflows as $i => $workflow) {
+  // If workflow name contains search term, push to $result_matches
+  if (contains($argv[1], $workflow->name)) {
+    array_push($result_matches, $workflow);
+  }
+}
 
-echo "$cache_file";
+// Construct cli table design
+$tbl = new Console_Table();
+$tbl->setHeaders(
+    array('Workflow', 'Description')
+);
+
+// Add results to table ...
+foreach ($result_matches as $i => $result_match) {
+  // Limit to specific length
+  if (strlen($result_match->description_short) > 50) {
+     $result_match->description_short = substr($result_match->description_short, 0, 47) . '...';
+  }
+  $tbl->addRow(array($result_match->name, $result_match->description_short));
+}
+
+// ... and display
+echo $tbl->getTable();
 
 ?>
