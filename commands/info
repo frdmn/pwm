@@ -58,7 +58,7 @@ if (count($result_matches) == 1) {
   if ($result_matches[0]->bundle_id) {
     echo "Bundle ID: ".$result_matches[0]->bundle_id."\n";
   }
-  echo "Installed: Yes/No"."\n"; // TODO - function to check if workflow is installed
+  echo "Installed: ".checkIfWorkflowIsInstalled($result_matches[0]->name)."\n"; // TODO - function to check if workflow is installed
   echo "Author: ".$result_matches[0]->author."\n";
   echo $bold."=> Description".$reset."\n";
   echo "\t".html_entity_decode($result_matches[0]->description_long)."\n";

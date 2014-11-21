@@ -25,14 +25,28 @@ function std($type, $msg) {
   // Append log type as prefix
   if ($type == "error") {
     error_log("[".strtoupper($type)."] ".$msg);
+    return true;
   } else {
     echo "[".strtoupper($type)."] ".$msg."\n";
+    return true;
   }
 }
 
 // Function to check if a string contains a specific substring
 function contains($pattern, $string){
-    return strpos(strtolower($string), strtolower($pattern)) !== false;
+  return strpos(strtolower($string), strtolower($pattern)) !== false;
+}
+
+function checkIfWorkflowIsInstalled($workflow) {
+  global $scriptdir;
+  $listcmd="php ".$scriptdir."/../commands/list";
+  $grepcmd=$listcmd." | grep --ignore-case \"".$workflow."\"";
+  exec($grepcmd, $retval, $exitcode);
+  if ($exitcode == 0) {
+    return "✔";
+  } else {
+    return "✘";
+  }
 }
 
 ?>
