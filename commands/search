@@ -40,6 +40,12 @@ foreach ($json_cache->workflows as $i => $workflow) {
   }
 }
 
+// Check amount of results
+if (count($result_matches) < 1) {
+  std("error",'No matches for "'.$argv[1].'"');
+  exit;
+}
+
 /*
  * Construct and render CLI table
  */
