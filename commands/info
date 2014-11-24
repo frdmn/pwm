@@ -62,8 +62,8 @@ if (count($result_matches) == 1) {
   echo "Author: ".$result_matches[0]->author."\n";
   echo $bold."=> Description".$reset."\n";
   echo "\t".html_entity_decode($result_matches[0]->description_long)."\n";
-  echo $bold."=> Screenshots".$reset."\n";
-  if ($result_matches[0]->screenshots) {
+  if (@$result_matches[0]->screenshots) {
+    echo $bold."=> Screenshots".$reset."\n";
     foreach ($result_matches[0]->screenshots as $screenshots) {
       echo "\t - ".html_entity_decode($screenshots)."\n";
     }
