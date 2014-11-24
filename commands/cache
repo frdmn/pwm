@@ -93,7 +93,7 @@ while ($page_current <= $page_last) {
     $workflow_object['author_avatar'] = trim($workflow_detail_author_avatar->src);
     $workflow_object['workflow_logo'] = trim($workflow_detail_logo->src);
     $workflow_object['description_short'] = trim($workflow_detail_description_short->plaintext);
-    $workflow_object['description_long'] = trim($workflow_detail_description_long->plaintext);
+    $workflow_object['description_long'] = trim($workflow_detail_description_long->innertext);
 
     // Log to stdout (based on log level defined above)
     std("info", "-> Parsing '".trim($workflow_detail_title->plaintext)."'");
@@ -104,7 +104,7 @@ while ($page_current <= $page_last) {
     std("debug", "=> Avatar: '".trim($workflow_detail_author_avatar->src)."'");
     std("debug", "=> Logo: '".trim($workflow_detail_logo->src)."'");
     std("debug", "=> Short description: '".trim($workflow_detail_description_short->plaintext)."'");
-    std("debug", "=> Long description: '".trim($workflow_detail_description_long->plaintext)."'");
+    std("debug", "=> Long description: '".trim($workflow_detail_description_long->innertext)."'");
 
     // Unset possible previous categories and screenshots
     unset($workflow_object['categories'], $workflow_object['screenshots']);
