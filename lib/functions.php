@@ -37,6 +37,7 @@ function contains($pattern, $string){
   return strpos(strtolower($string), strtolower($pattern)) !== false;
 }
 
+// Function to check if a specific workflow is locally installed
 function checkIfWorkflowIsInstalled($workflow) {
   global $scriptdir;
   $listcmd="php ".$scriptdir."/../commands/list";
