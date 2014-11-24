@@ -53,7 +53,8 @@ foreach ($json_cache->workflows as $i => $workflow) {
 // Check if only one result
 if (count($result_matches) == 1) {
   // Get informations about the specified workflow
-  echo $result_matches[0]->name.": version ".$result_matches[0]->version."\n";
+  echo $bold.$result_matches[0]->name.$reset."\n";
+  echo "Version: ".$result_matches[0]->version."\n";
   echo $result_matches[0]->url."\n";
   if ($result_matches[0]->bundle_id) {
     echo "Bundle ID: ".$result_matches[0]->bundle_id."\n";
