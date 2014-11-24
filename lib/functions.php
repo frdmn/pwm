@@ -37,11 +37,32 @@ function contains($pattern, $string){
   return strpos(strtolower($string), strtolower($pattern)) !== false;
 }
 
+// Function to parse location of Alfred.preferences
+function getAlfredPreferencesLocation(){
+  // Get possible "syncfolder"
+  exec('/usr/libexec/PlistBuddy -c "Print syncfolder" ${HOME}/Library/Preferences/com.runningwithcrayons.Alfred-Preferences.plist 2> /dev/null', $retval, $exitcode);
+
+  // If error code => no syncfolder set => use "Application Support"
+  // Otherwise use the custom folder, returned by PlistBuddy
+  if ($exitcode == 0) {
+    $workflow_folder=$retval[0]."/Alfred.alfredpreferences/workflows";
+  } else {
+    $workflow_folder=$_SERVER['HOME']."/Library/Application Support/Alfred 2/Alfred.alfredpreferences/workflows";
+  }
+
+  // Replace tilde with actual home folder
+  $workflow_folder=str_replace("~", $_SERVER['HOME'], $workflow_folder);
+
+  return $workflow_folder;
+}
+
 // Function to check if a specific workflow is locally installed
 function checkIfWorkflowIsInstalled($workflow) {
   global $scriptdir;
+
   $listcmd="php ".$scriptdir."/../commands/list";
   $grepcmd=$listcmd." | grep --ignore-case \"".$workflow."\"";
+
   exec($grepcmd, $retval, $exitcode);
   if ($exitcode == 0) {
     return "✔";
