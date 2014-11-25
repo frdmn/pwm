@@ -2,7 +2,7 @@
 
 scriptname=$(basename $0)
 scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cache_file="${HOME}/.ppm.cache"
+cache_file="${HOME}/.pwm.cache"
 update_every="24"
 
 # Usage function
@@ -22,8 +22,8 @@ usage(){
 command=${1}
 
 # Allow execution of 'cache' even when there is no cache yet
-if [[ ! -f ~/.ppm.cache && ${command} != "cache" ]]; then
-  echo "NO cache found! Run 'ppm cache' at least once!"
+if [[ ! -f ${cache_file} && ${command} != "cache" ]]; then
+  echo "NO cache found! Run '${scriptname} cache' at least once!"
   exit
 fi
 

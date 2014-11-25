@@ -10,6 +10,6 @@ $log_error = true;
 
 $items_per_page = 100;
 
-$cache_file =  $_SERVER['HOME']."/.ppm.cache";
+$cache_file =  $_SERVER['HOME']."/.pwm.cache";
 
 ?>
