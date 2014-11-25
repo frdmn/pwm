@@ -117,11 +117,12 @@ function checkIfSpecificWorkflowIsInstalledViaPackal($workflow) {
 
   // Iterate through cache
   foreach ($json_cache->workflows as $i => $cached_packal_workflow) {
-    // ... and add to array
-    $cached_packal_workflows[] = $cached_packal_workflow->name;
+    // ... and add to searchable array
+    $cached_packal_workflows[] = strtolower($cached_packal_workflow->name);
   }
 
-  if (in_array($workflow, $cached_packal_workflows)) {
+  // Search for workflow in
+  if (in_array(strtolower($workflow), $cached_packal_workflows)) {
     return "✔";
   } else {
     return "✘";
