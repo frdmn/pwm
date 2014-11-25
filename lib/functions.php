@@ -87,6 +87,23 @@ function listInstalledWorkflows($location){
   return $installed_workflows;
 }
 
+// Function to display the description of a specific workflow
+function getWorkflowDescription($workflow){
+  global $cache_file;
+
+  // Load and store cache
+  $raw_cache=file_get_contents($cache_file);
+  $json_cache=json_decode($raw_cache);
+
+  // Iterate through available workflows
+  foreach ($json_cache->workflows as $i => $cached_workflow) {
+    // If workflow name contains search term, push to $result_matches
+    if ($workflow == $cached_workflow->name) {
+      return $cached_workflow->description_short;
+    }
+  }
+}
+
 // Function to check if a specific workflow is locally installed
 function checkIfSpecificWorkflowIsInstalled($workflow) {
   global $scriptdir;

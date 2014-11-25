@@ -37,6 +37,13 @@ $workflow_folder=getAlfredPreferencesLocation();
 $installed_workflows=listInstalledWorkflows($workflow_folder);
 
 foreach ($installed_workflows as $installed_workflow) {
+  $workflow_description = getWorkflowDescription($installed_workflow);
+
+  // Limit $workflow_description to specific length
+  if (strlen($workflow_description) > 50) {
+     $workflow_description = substr($workflow_description, 0, 47) . '...';
+  }
+
   $tbl->addRow(array($installed_workflow, $workflow_description));
 }
 
