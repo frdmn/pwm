@@ -45,7 +45,7 @@ usage
 ;;
 *)
 shift
-${scriptdir}/commands/${command} $@
+${scriptdir}/commands/${command} $@ 2>/dev/null
 if [ $? = 127 ]; then
   echo "Error: '${command}' is not a known command." >&2
   echo "       Run '${scriptname} --help' for a list of known commands." >&2
