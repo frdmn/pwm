@@ -26,7 +26,7 @@ if (isset($argv[1]) && $argv[1] == "description") {
 // Construct cli table design
 $tbl = new Console_Table();
 $tbl->setHeaders(
-    array('Workflow', 'Description')
+    array('Workflow', 'Description', 'Packal?')
 );
 
 /*
@@ -44,7 +44,7 @@ foreach ($installed_workflows as $installed_workflow) {
      $workflow_description = substr($workflow_description, 0, 47) . '...';
   }
 
-  $tbl->addRow(array($installed_workflow, $workflow_description));
+  $tbl->addRow(array($installed_workflow, $workflow_description, checkIfSpecificWorkflowIsInstalledViaPackal($installed_workflow)));
 }
 
 // ... and display
