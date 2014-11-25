@@ -30,25 +30,14 @@ $tbl->setHeaders(
 );
 
 /*
- * Read each workflows plist and render table
+ * List workflows
  */
 
 $workflow_folder=getAlfredPreferencesLocation();
+$installed_workflows=listInstalledWorkflows($workflow_folder);
 
-// Scan for workflows and exclude hidden files
-$workflows = preg_grep('/^([^.])/', scandir($workflow_folder));
-foreach($workflows as $workflow) {
-  // Parse and store name and description
-  $workflow_name=exec('/usr/libexec/PlistBuddy -c "Print name" "'.$workflow_folder.'/'.$workflow.'/Info.plist" 2> /dev/null');
-  $workflow_description=exec('/usr/libexec/PlistBuddy -c "Print description" "'.$workflow_folder.'/'.$workflow.'/Info.plist" 2> /dev/null');
-
-  // Limit to specific length
-  if (strlen($workflow_description) > 50) {
-     $workflow_description = substr($workflow_description, 0, 47) . '...';
-  }
-
-  // Add entry table ...
-  $tbl->addRow(array($workflow_name, $workflow_description));
+foreach ($installed_workflows as $installed_workflow) {
+  $tbl->addRow(array($installed_workflow, $workflow_description));
 }
 
 // ... and display

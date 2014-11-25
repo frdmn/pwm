@@ -72,6 +72,21 @@ function getAlfredPreferencesLocation(){
  * Workflow related
  */
 
+// Function to list all locally installed workflows
+function listInstalledWorkflows($location){
+  // Scan for workflows and exclude hidden files
+  $installed_workflows = array();
+  $workflows = preg_grep('/^([^.])/', scandir($location));
+
+  foreach($workflows as $workflow) {
+    // Parse and store name and description
+    $workflow_name=exec('/usr/libexec/PlistBuddy -c "Print name" "'.$location.'/'.$workflow.'/Info.plist" 2> /dev/null');
+    $installed_workflows[] = $workflow_name;
+  }
+
+  return $installed_workflows;
+}
+
 // Function to check if a specific workflow is locally installed
 function checkIfSpecificWorkflowIsInstalled($workflow) {
   global $scriptdir;
