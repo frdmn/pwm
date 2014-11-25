@@ -1,7 +1,15 @@
 <?php
 
+/*
+ * Initalization
+ */
+
 $scriptdir=realpath(dirname(__FILE__));
 include($scriptdir.'/../lib/config.php');
+
+/*
+ * Helper functions
+ */
 
 // Function to print stuff to stdout/stderr
 function std($type, $msg) {
@@ -37,6 +45,10 @@ function contains($pattern, $string){
   return strpos(strtolower($string), strtolower($pattern)) !== false;
 }
 
+/*
+ * Alfred related
+ */
+
 // Function to parse location of Alfred.preferences
 function getAlfredPreferencesLocation(){
   // Get possible "syncfolder"
@@ -55,6 +67,10 @@ function getAlfredPreferencesLocation(){
 
   return $workflow_folder;
 }
+
+/*
+ * Workflow related
+ */
 
 // Function to check if a specific workflow is locally installed
 function checkIfWorkflowIsInstalled($workflow) {
