@@ -34,8 +34,8 @@ Search for a specific workflow:
 ## Installation
 
 1. Clone repository:  
-  `cd /usr/local/src`
-  `git clone https://github.com/frdmn/ssltools.git`
+  `cd /usr/local/src`  
+  `git clone https://github.com/frdmn/pwm.git`
 1. Symlink into `$PATH`:  
   `ln -s /usr/local/src/pwm/pwm /usr/bin/`
 1. Update the cache at least once before executing any commands:  
