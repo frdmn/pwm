@@ -73,7 +73,7 @@ function getAlfredPreferencesLocation(){
  */
 
 // Function to check if a specific workflow is locally installed
-function checkIfWorkflowIsInstalled($workflow) {
+function checkIfSpecificWorkflowIsInstalled($workflow) {
   global $scriptdir;
 
   $listcmd="php ".$scriptdir."/../commands/list";
