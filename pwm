@@ -29,9 +29,9 @@ fi
 
 # Check execution of last cache
 if [[ -f ${cache_file} ]]; then
-  updated_timestamp=$(cat ${cache_file} | json last_update)
-else
   updated_timestamp=0
+else
+  updated_timestamp=$(cat ${cache_file} | json last_update)
 fi
 
 # Check if cache update is necessary
