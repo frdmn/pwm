@@ -104,25 +104,25 @@ function getWorkflowDescription($workflow){
   }
 }
 
+// Function to display the description of a specific workflow
+function getWorkflowPath($input){
+  $preferences = getAlfredPreferencesLocation();
+  $workflows = preg_grep('/^([^.])/', scandir($preferences));
+
+  $match = NULL;
+
+  foreach($workflows as $workflow) {
+    $workflow_name=exec('/usr/libexec/PlistBuddy -c "Print name" "'.$preferences.'/'.$workflow.'/Info.plist" 2> /dev/null');
+
+    if ($input == $workflow_name) {
+      return $preferences.'/'.$workflow;
+    }
+  }
+}
+
 // Function to check if a specific workflow is locally installed via Packal
 function checkIfSpecificWorkflowIsInstalledViaPackal($workflow) {
-  global $scriptdir, $cache_file;
-
-  // Load and store cache
-  $raw_cache=file_get_contents($cache_file);
-  $json_cache=json_decode($raw_cache);
-
-  // Create empty array to store cached Packal workflows in
-  $cached_packal_workflows = array();
-
-  // Iterate through cache
-  foreach ($json_cache->workflows as $i => $cached_packal_workflow) {
-    // ... and add to searchable array
-    $cached_packal_workflows[] = strtolower($cached_packal_workflow->name);
-  }
-
-  // Search for workflow in
-  if (in_array(strtolower($workflow), $cached_packal_workflows)) {
+  if (file_exists(getWorkflowPath($workflow)."/packal")) {
     return "✔";
   } else {
     return "✘";
