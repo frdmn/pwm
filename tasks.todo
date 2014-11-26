@@ -6,3 +6,4 @@ Commands:
 General:
   ☐ Improve argument/switch parsing
   ☐ Improve caching/scraping system
+  ☐ Need proper "last updated" timestamp from packal - waiting for response of @shawnrice
