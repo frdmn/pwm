@@ -27,8 +27,14 @@ if [[ ! -f ${cache_file} && ${command} != "cache" ]]; then
   exit
 fi
 
+# Check execution of last cache
+if [[ -f ${cache_file} ]]; then
+  updated_timestamp=$(cat ${cache_file} | json last_update)
+else
+  updated_timestamp=0
+fi
+
 # Check if cache update is necessary
-updated_timestamp=$(cat ${cache_file} | json last_update)
 current_timestamp=$(date +%s)
 time_diff=$(($current_timestamp-$updated_timestamp))
 max_time_diff=$(($update_every*60*60))
