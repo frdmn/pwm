@@ -33,6 +33,8 @@ Search for a specific workflow:
 
 ## Installation
 
+1. Install dependencies:  
+  `npm install -g json`
 1. Clone repository:  
   `cd /usr/local/src`  
   `git clone https://github.com/frdmn/pwm.git`
@@ -40,6 +42,12 @@ Search for a specific workflow:
   `ln -s /usr/local/src/pwm/pwm /usr/bin/`
 1. Update the cache at least once before executing any commands:  
   `pwm cache`
+
+## Dependencies
+
+NPM packages:
+
+* JSON
 
 ## Version
 
