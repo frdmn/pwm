@@ -4,6 +4,7 @@ Commands:
   ☐ remove
 
 General:
+  ☐ Remove the scraping part and use the packal backend instead (Github @packal/repository)
   ☐ Improve argument/switch parsing
   ☐ Improve caching/scraping system
-  ☐ Need proper "last updated" timestamp from packal - waiting for response of @shawnrice
+  ✔ Need proper "last updated" timestamp from packal - waiting for response of @shawnrice  @done (14-11-26 21:31)
