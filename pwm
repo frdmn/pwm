@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-scriptname=$(basename $0)
+scriptname=$(basename ${0})
 scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cache_file="${HOME}/.pwm.cache"
 update_every="24"
@@ -36,9 +36,9 @@ fi
 
 # Check if cache update is necessary
 current_timestamp=$(date +%s)
-time_diff=$(($current_timestamp-$updated_timestamp))
-max_time_diff=$(($update_every*60*60))
-if [[ $time_diff -gt $max_time_diff && ${command} != "cache" ]]; then
+time_diff=$((${current_timestamp}-${updated_timestamp}))
+max_time_diff=$((${update_every}*60*60))
+if [[ ${time_diff} -gt ${max_time_diff} && ${command} != "cache" ]]; then
   echo "Error: Local packal.org cache seems outdated (${time_diff} > ${max_time_diff})." >&2
   echo "       Run '${scriptname} cache' to update." >&2
   exit
